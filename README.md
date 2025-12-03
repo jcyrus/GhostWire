@@ -1,21 +1,12 @@
 <div align="center">
 
-```text
-  ________  ___  ___  ________  ________  _________  ___       __   ___  ________  _______
- |\   ____\|\  \|\  \|\   __  \|\   ____\|\___   ___\\  \     |\  \|\  \|\   __  \|\  ___ \
- \ \  \___|\ \  \\\  \ \  \|\  \ \  \___|\|___ \  \_\ \  \    \ \  \ \  \ \  \|\  \ \   __/|
-  \ \  \  __\ \   __  \ \  \\\  \ \_____  \   \ \  \ \ \  \  __\ \  \ \  \ \   _  _\ \  \_|/__
-   \ \  \|\  \ \  \ \  \ \  \\\  \|____|\  \   \ \  \ \ \  \|\__\_\  \ \  \ \  \\  \\ \  \_|\ \
-    \ \_______\ \__\ \__\ \_______\____\_\  \   \ \__\ \ \____________\ \__\ \__\\ _\\ \_______\
-     \|_______|\|__|\|__|\|_______|\_________\   \|__|  \|____________|\|__|\|__|\|__|\|_______|
-                                  \|_________|
-```
+![GhostWire Logo](docs/logo.jpg)
 
-**STATUS: ONLINE**
+[![Status](https://img.shields.io/website?url=https%3A%2F%2Fghostwire-ardt.shuttle.app%2Fhealth&label=Relay%20Status&style=for-the-badge&color=success)](https://ghostwire-ardt.shuttle.app)
 
 **The server knows nothing. The terminal is everything.**
 
-[View Demo] | [Report Bug] | [Request Feature]
+[View Demo (Coming Soon)] | [Report Bug (Coming Soon)] | [Request Feature (Coming Soon)]
 
 </div>
 
@@ -44,6 +35,14 @@ _Coming Soon_
 ---
 
 ## 💾 Initialize Uplink (Installation)
+
+### ⚡️ Quick Install (The "Hacker" Way)
+
+```bash
+curl -sL https://ghost.jcyrus.com/install | bash
+```
+
+### 📦 Manual Installation
 
 ### Prerequisites
 

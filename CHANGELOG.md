@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-12-03
+
+### Added
+
+- **One-Liner Installation**: New "Hacker" install command `curl -sL https://ghost.jcyrus.com/install | bash`.
+- **Install Script**: Robust `install.sh` with OS (Linux/macOS) and Architecture (x64/arm64) detection.
+- **Cross-Platform Builds**: GitHub Actions workflow to automatically build and release binaries for Linux, macOS, and Windows.
+- **Server Redirect**: Added `/install` route to server to redirect to the raw install script.
+
+### Changed
+
+- **Shuttle Dependencies**: Updated `shuttle-runtime` and `shuttle-axum` to v0.50.0.
+- **README**: Updated with new installation instructions and dynamic status badge.
+
 ## [0.1.0] - 2025-12-03
 
 ### Added

@@ -83,22 +83,16 @@ async fn ws_handler(
     ws.on_upgrade(move |socket| relay::handle_websocket(socket, state))
 }
 
+/// Redirect to the install script
+async fn install_redirect() -> impl IntoResponse {
+    axum::response::Redirect::temporary("https://raw.githubusercontent.com/jcyrus/GhostWire/main/install.sh")
+}
+
 /// Main Shuttle entry point
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
-    // Initialize tracing
-    tracing_subscriber::fmt()
-        .with_env_filter(
-            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-                tracing_subscriber::EnvFilter::new("info")
-                    .add_directive("ghostwire_server=debug".parse().expect("Invalid tracing directive"))
-                    .add_directive("tower_http=debug".parse().expect("Invalid tracing directive"))
-            }),
-        )
-        .init();
-
-    info!("Initializing GhostWire Relay Server");
-
+    // Shuttle handles tracing initialization, so we don't need to do it here
+    
     // Create shared state
     let state = RelayState::new();
 
@@ -107,13 +101,12 @@ async fn main() -> shuttle_axum::ShuttleAxum {
         .route("/", get(root))
         .route("/health", get(health_check))
         .route("/ws", get(ws_handler))
+        .route("/install", get(install_redirect))
         .with_state(state)
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(DefaultMakeSpan::default().include_headers(true)),
         );
-
-    info!("GhostWire Relay Server initialized");
 
     Ok(router.into())
 }

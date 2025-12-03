@@ -17,3 +17,6 @@ Thumbs.db
 
 # Shuttle
 .shuttle/
+/target
+.shuttle*
+Secrets*.toml
