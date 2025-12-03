@@ -1,0 +1,40 @@
+[package]
+name = "ghostwire-server"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+# Shuttle deployment binary
+[[bin]]
+name = "ghostwire-server"
+path = "src/main.rs"
+
+# Local development binary
+[[bin]]
+name = "ghostwire-local"
+path = "src/local.rs"
+
+[dependencies]
+# Workspace dependencies
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+
+# Web Framework
+axum = { version = "0.7", features = ["ws"] }
+shuttle-axum = "0.39"
+shuttle-runtime = "0.39"
+
+# Async utilities
+futures = "0.3"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["trace", "cors"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Additional utilities
+uuid = { version = "1.6", features = ["v4", "serde"] }
