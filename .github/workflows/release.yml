@@ -42,7 +42,7 @@ jobs:
           targets: ${{ matrix.target }}
 
       - name: Build Binary
-        run: cargo build --release --target ${{ matrix.target }} --bin ghostwire-client
+        run: cargo build --release --target ${{ matrix.target }} -p ghostwire-client --bin ghostwire
 
       - name: Rename Binary
         shell: bash
