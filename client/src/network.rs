@@ -4,6 +4,7 @@
 use crate::app::{MessageMeta, MessageType, WireMessage};
 use futures_util::{SinkExt, StreamExt};
 use tokio::sync::mpsc;
+use tokio::time::{interval, Duration};
 use tokio_tungstenite::{connect_async, tungstenite::Message};
 #[derive(Debug, Clone)]
 pub enum NetworkEvent {
@@ -92,9 +93,23 @@ pub async fn network_task(
         }
     }
 
+    // Heartbeat interval - send ping every 30 seconds to keep connection alive
+    let mut heartbeat = interval(Duration::from_secs(30));
+    heartbeat.tick().await; // First tick completes immediately
+
     // Main network loop
     loop {
         tokio::select! {
+            // Heartbeat - send ping to keep connection alive
+            _ = heartbeat.tick() => {
+                if let Err(e) = write.send(Message::Ping(vec![])).await {
+                    let _ = event_tx.send(NetworkEvent::Error {
+                        message: format!("Failed to send heartbeat: {}", e),
+                    });
+                    break;
+                }
+            }
+
             // Handle incoming messages from server
             Some(msg_result) = read.next() => {
                 match msg_result {
@@ -107,6 +122,19 @@ pub async fn network_task(
                                 message: "Failed to parse message".to_string(),
                             });
                         }
+                    }
+                    Ok(Message::Ping(data)) => {
+                        // Respond to server ping with pong
+                        if let Err(e) = write.send(Message::Pong(data)).await {
+                            let _ = event_tx.send(NetworkEvent::Error {
+                                message: format!("Failed to send pong: {}", e),
+                            });
+                            break;
+                        }
+                    }
+                    Ok(Message::Pong(_)) => {
+                        // Server responded to our ping - connection is alive
+                        // No action needed, just continue
                     }
                     Ok(Message::Close(_)) => {
                         let _ = event_tx.send(NetworkEvent::Disconnected);

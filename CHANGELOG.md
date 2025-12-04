@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2025-12-04
+
 ### Fixed
+
+- **WebSocket Connection Stability**: Implemented bidirectional heartbeat mechanism to prevent connection timeouts
+
+  - Implementation: `client/src/network.rs`, `server/src/relay.rs`
+  - Impact: Connections now stay alive indefinitely during idle periods. Fixes "WebSocket protocol error: C" disconnections that occurred after 30-60 seconds of inactivity
+  - Root Cause: Intermediate proxies and load balancers (including Shuttle's infrastructure) were timing out idle WebSocket connections due to lack of traffic
+  - Solution: Both client and server now send ping frames every 30 seconds and properly respond to ping/pong messages, keeping the connection active even when users aren't chatting
 
 - **Default Server URL**: Changed client default from `ws://localhost:8080/ws` to `wss://ghost.jcyrus.com/ws`
   - Implementation: `client/src/main.rs`
@@ -15,6 +24,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Root Cause: The hardcoded localhost default was intended for development but caused confusion for end users
 
 ### Added
+
+- **User Idle Status**: Users now display idle status when inactive for more than 5 minutes
+
+  - Implementation: `client/src/app.rs`, `client/src/ui.rs`
+  - Impact: Three-state presence system provides better awareness of user activity
+  - Visual Indicators:
+    - `●` Green: Online and active (sent message within last 5 minutes)
+    - `◐` Yellow: Idle (connected but no activity for 5+ minutes, shows "idle Xm")
+    - `○` Gray: Offline (disconnected, shows time since last seen)
+  - Helps users identify who is actively chatting versus who is just connected
 
 - **Usage Documentation**: Added comprehensive usage section to README
 
@@ -106,5 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No group channels yet (reserved for future)
 - Server broadcasts all messages to all clients (no server-side filtering)
 
-[Unreleased]: https://github.com/jcyrus/GhostWire/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jcyrus/GhostWire/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/jcyrus/GhostWire/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/jcyrus/GhostWire/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jcyrus/GhostWire/releases/tag/v0.1.0

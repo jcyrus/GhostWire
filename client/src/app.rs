@@ -87,6 +87,19 @@ impl User {
             last_seen: Utc::now(),
         }
     }
+    
+    /// Check if user is idle (no activity for more than 5 minutes)
+    pub fn is_idle(&self) -> bool {
+        if !self.is_online {
+            return false; // Offline users aren't considered idle
+        }
+        
+        let idle_threshold = chrono::Duration::minutes(5);
+        let now = Utc::now();
+        let time_since_activity = now.signed_duration_since(self.last_seen);
+        
+        time_since_activity > idle_threshold
+    }
 }
 
 /// Channel type variants

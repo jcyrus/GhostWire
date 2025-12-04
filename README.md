@@ -68,7 +68,7 @@ irm https://ghost.jcyrus.com/install.ps1 | iex
 Clone the repository and build the binary:
 
 ```bash
-git clone [https://github.com/jcyrus/GhostWire.git](https://github.com/jcyrus/GhostWire.git)
+git clone https://github.com/jcyrus/GhostWire.git
 cd ghostwire
 
 # Build the client only (The part you use)
