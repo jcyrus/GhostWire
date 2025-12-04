@@ -52,7 +52,7 @@ async fn root(State(state): State<RelayState>) -> Html<String> {
     <div class="status">STATUS: ONLINE</div>
     <div class="info">
         <p>Connected Clients: {}</p>
-        <p>WebSocket Endpoint: <code>ws://[this-host]/ws</code></p>
+        <p>WebSocket Endpoint: <code>ws://ghost.jcyrus.com/ws</code></p>
     </div>
     <h2>Protocol</h2>
     <pre>{{
@@ -88,6 +88,11 @@ async fn install_redirect() -> impl IntoResponse {
     axum::response::Redirect::temporary("https://raw.githubusercontent.com/jcyrus/GhostWire/main/install.sh")
 }
 
+/// Redirect to the PowerShell install script
+async fn install_ps1_redirect() -> impl IntoResponse {
+    axum::response::Redirect::temporary("https://raw.githubusercontent.com/jcyrus/GhostWire/main/install.ps1")
+}
+
 /// Main Shuttle entry point
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
@@ -102,6 +107,7 @@ async fn main() -> shuttle_axum::ShuttleAxum {
         .route("/health", get(health_check))
         .route("/ws", get(ws_handler))
         .route("/install", get(install_redirect))
+        .route("/install.ps1", get(install_ps1_redirect))
         .with_state(state)
         .layer(
             TraceLayer::new_for_http()
