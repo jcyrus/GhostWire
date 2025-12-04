@@ -52,7 +52,7 @@ async fn root(State(state): State<RelayState>) -> Html<String> {
     <div class="status">STATUS: ONLINE</div>
     <div class="info">
         <p>Connected Clients: {}</p>
-        <p>WebSocket Endpoint: <code>ws://[this-host]/ws</code></p>
+        <p>WebSocket Endpoint: <code>ws://ghost.jcyrus.com/ws</code></p>
     </div>
     <h2>Protocol</h2>
     <pre>{{

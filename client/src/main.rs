@@ -25,7 +25,7 @@ use std::time::{Duration, Instant};
 use tokio::sync::mpsc;
 
 /// Default server URL (can be overridden via CLI args)
-const DEFAULT_SERVER_URL: &str = "ws://localhost:8080/ws";
+const DEFAULT_SERVER_URL: &str = "wss://ghost.jcyrus.com/ws";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

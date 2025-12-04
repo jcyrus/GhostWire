@@ -18,7 +18,7 @@
 
 ### 📸 Visual Recon
 
-_Coming Soon_
+![GhostWire Screenshot](docs/screenshot.jpg)
 
 ---
 
@@ -60,9 +60,36 @@ cd ghostwire
 # Build the client only (The part you use)
 cargo build --release -p ghostwire-client
 
-# Run it
-./target/release/ghostwire-client
 ```
+
+---
+
+## 🚀 Usage
+
+After installation, connect to the public relay:
+
+```bash
+# Connect with your username (connects to wss://ghost.jcyrus.com/ws by default)
+ghostwire your_username
+
+# Or connect to a custom server
+ghostwire your_username wss://your-server.com/ws
+
+# For local development (requires local server running)
+ghostwire your_username ws://localhost:8080/ws
+```
+
+### Controls
+
+- **`i` or `Enter`**: Enter message mode
+- **`Esc`**: Exit message mode / Quit
+- **`q`**: Quit (in normal mode)
+- **`j/k` or `↓/↑`**: Scroll chat
+- **`h/l` or `←/→`**: Navigate channels
+- **`Tab`**: Activate selected channel
+- **`#`**: Jump to global channel
+- **`d`**: Create DM with selected user
+- **`J/K`**: Select user (for DM creation)
 
 ---
 

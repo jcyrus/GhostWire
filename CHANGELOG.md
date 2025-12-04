@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Default Server URL**: Changed client default from `ws://localhost:8080/ws` to `wss://ghost.jcyrus.com/ws`
+  - Implementation: `client/src/main.rs`
+  - Impact: Users can now connect without specifying a server URL. Running `ghostwire username` now connects to production by default instead of failing with "Connection refused"
+  - Root Cause: The hardcoded localhost default was intended for development but caused confusion for end users
+
+### Added
+
+- **Usage Documentation**: Added comprehensive usage section to README
+  - Examples for connecting to default server, custom servers, and local development
+  - Complete keyboard controls reference
+  - Impact: Users now have clear instructions on how to use the client after installation
+
 ## [0.1.1] - 2025-12-03
 
 ### Added
