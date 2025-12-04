@@ -38,9 +38,23 @@
 
 ### ⚡️ Quick Install (The "Hacker" Way)
 
+**Linux / macOS:**
+
 ```bash
 curl -sL https://ghost.jcyrus.com/install | bash
 ```
+
+**Windows (PowerShell):**
+
+```powershell
+irm https://ghost.jcyrus.com/install.ps1 | iex
+```
+
+> **Note for Windows users:** After installation, you may need to restart your terminal for the PATH changes to take effect. If `ghostwire` is not recognized, run:
+>
+> ```powershell
+> $env:Path = [System.Environment]::GetEnvironmentVariable('Path','User')
+> ```
 
 ### 📦 Manual Installation
 

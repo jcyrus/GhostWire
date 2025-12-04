@@ -88,6 +88,11 @@ async fn install_redirect() -> impl IntoResponse {
     axum::response::Redirect::temporary("https://raw.githubusercontent.com/jcyrus/GhostWire/main/install.sh")
 }
 
+/// Redirect to the PowerShell install script
+async fn install_ps1_redirect() -> impl IntoResponse {
+    axum::response::Redirect::temporary("https://raw.githubusercontent.com/jcyrus/GhostWire/main/install.ps1")
+}
+
 /// Main Shuttle entry point
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
@@ -102,6 +107,7 @@ async fn main() -> shuttle_axum::ShuttleAxum {
         .route("/health", get(health_check))
         .route("/ws", get(ws_handler))
         .route("/install", get(install_redirect))
+        .route("/install.ps1", get(install_ps1_redirect))
         .with_state(state)
         .layer(
             TraceLayer::new_for_http()

@@ -17,9 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Usage Documentation**: Added comprehensive usage section to README
+
   - Examples for connecting to default server, custom servers, and local development
   - Complete keyboard controls reference
   - Impact: Users now have clear instructions on how to use the client after installation
+
+- **Windows Installer**: PowerShell installation script for Windows users
+  - Implementation: `install.ps1` with automatic PATH configuration
+  - Server route: `/install.ps1` redirects to raw GitHub script
+  - Impact: Windows users can now install with one-liner: `irm https://ghost.jcyrus.com/install.ps1 | iex`
+  - Automatically adds installation directory to user PATH
+  - Includes instructions for refreshing PATH in current session
 
 ## [0.1.1] - 2025-12-03
 
