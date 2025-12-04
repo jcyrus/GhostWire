@@ -107,11 +107,31 @@ pub async fn handle_websocket(socket: WebSocket, state: RelayState) {
     let (mut ws_tx, mut ws_rx) = socket.split();
 
     // Spawn a task to forward broadcast messages to this client
+    // Also send periodic pings to keep the connection alive
     let mut send_task = tokio::spawn(async move {
-        while let Some(msg) = broadcast_rx.recv().await {
-            if ws_tx.send(Message::Text(msg)).await.is_err() {
-                // Client disconnected
-                break;
+        let mut heartbeat = tokio::time::interval(std::time::Duration::from_secs(30));
+        heartbeat.tick().await; // First tick completes immediately
+        
+        loop {
+            tokio::select! {
+                // Send heartbeat ping
+                _ = heartbeat.tick() => {
+                    if ws_tx.send(Message::Ping(vec![])).await.is_err() {
+                        // Client disconnected
+                        break;
+                    }
+                }
+                
+                // Forward broadcast messages
+                Some(msg) = broadcast_rx.recv() => {
+                    if ws_tx.send(Message::Text(msg)).await.is_err() {
+                        // Client disconnected
+                        break;
+                    }
+                }
+                
+                // Channel closed
+                else => break,
             }
         }
     });

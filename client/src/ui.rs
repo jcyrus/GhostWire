@@ -112,9 +112,16 @@ fn render_users(f: &mut Frame, app: &App, area: Rect) {
         .iter()
         .enumerate()
         .map(|(i, user)| {
-            let status_icon = if user.is_online { "●" } else { "○" };
+            // Determine user status: online, idle, or offline
+            let (status_icon, status_color) = if !user.is_online {
+                ("○", Color::DarkGray) // Offline
+            } else if user.is_idle() {
+                ("◐", Color::Yellow) // Idle (half-circle)
+            } else {
+                ("●", Color::Green) // Online and active
+            };
             
-            // Calculate time since last seen for offline users
+            // Calculate time since last seen for offline/idle users
             let last_seen_text = if !user.is_online {
                 let duration = Utc::now().signed_duration_since(user.last_seen);
                 let mins = duration.num_minutes();
@@ -130,6 +137,11 @@ fn render_users(f: &mut Frame, app: &App, area: Rect) {
                 } else {
                     "".to_string()
                 }
+            } else if user.is_idle() {
+                // Show idle time for idle users
+                let duration = Utc::now().signed_duration_since(user.last_seen);
+                let mins = duration.num_minutes();
+                format!(" (idle {}m)", mins)
             } else {
                 String::new()
             };
@@ -141,10 +153,8 @@ fn render_users(f: &mut Frame, app: &App, area: Rect) {
                     .fg(Color::Black)
                     .bg(Color::Cyan)
                     .add_modifier(Modifier::BOLD)
-            } else if user.is_online {
-                Style::default().fg(Color::Green)
             } else {
-                Style::default().fg(Color::DarkGray)
+                Style::default().fg(status_color)
             };
             
             ListItem::new(content).style(style)
